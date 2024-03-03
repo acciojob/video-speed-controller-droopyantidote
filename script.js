@@ -33,7 +33,6 @@ function scrub(e) {
 }
 
 toggle.addEventListener('click', togglePlay);
-player.addEventListener('timeupdate', handleProgress);
 skipButtons.forEach(button => button.addEventListener('click', skip));
 ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
 ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
@@ -43,3 +42,9 @@ progress.addEventListener('click', scrub);
 progress.addEventListener('mousemove', (e) => mousedown && scrub(e));
 progress.addEventListener('mousedown', () => mousedown = true);
 progress.addEventListener('mouseup', () => mousedown = false);
+
+// Wait for the 'loadedmetadata' event before accessing video properties
+player.addEventListener('loadedmetadata', function() {
+  // Update progress bar and duration once video metadata is loaded
+  handleProgress();
+});
